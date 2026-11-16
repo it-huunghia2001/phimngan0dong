@@ -4,10 +4,10 @@ import { About, Channels, Contact, Footer, Header, Hero } from "@/components/sec
 import VideoGallery from "@/components/VideoGallery";
 import TikTokEmbed from "@/components/TikTokEmbed";
 
-export const revalidate = 600;
+export const dynamic = "force-dynamic"; // luôn dựng lại khi có người truy cập (dữ liệu YouTube vẫn được cache 10 phút)
 
 export default async function Home() {
-  const { videos } = await getVideos();
+  const { videos, sources } = await getVideos();
   const tiktok = siteConfig.channels.find((c) => c.id === "tiktok");
   const handle = tiktok?.url.match(/@([\w.]+)/)?.[1];
   const jsonLd = {
@@ -20,7 +20,7 @@ export default async function Home() {
       <Header />
       <main>
         <Hero count={videos.length} />
-        <VideoGallery videos={videos} />
+        <VideoGallery videos={videos} notes={videos.length ? undefined : Object.entries(sources).map(([k, v]) => `${k}: ${v}`).join(" · ")} />
         {tiktok && handle && (
           <section className="sec" id="tiktok">
             <h2>Trên <span>TikTok</span></h2>

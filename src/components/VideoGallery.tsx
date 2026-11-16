@@ -14,10 +14,22 @@ function embedOf(v: Video): { src: string; cls: "land" | "port" } | null {
 }
 const fmt = (iso?: string) => { if (!iso) return ""; const d = new Date(iso); return isNaN(+d) ? "" : d.toLocaleDateString("vi-VN"); };
 
-export default function VideoGallery({ videos }: { videos: Video[] }) {
+export default function VideoGallery({ videos: initial, notes }: { videos: Video[]; notes?: string }) {
   const [filter, setFilter] = useState<"all" | Platform>("all");
   const [shown, setShown] = useState(STEP);
   const [active, setActive] = useState<Video | null>(null);
+  const [videos, setVideos] = useState<Video[]>(initial);
+  const [loading, setLoading] = useState(initial.length === 0);
+
+  // Nếu trang dựng sẵn bị rỗng (ví dụ lúc build bị chặn), tự lấy lại từ /api/videos ở trình duyệt
+  useEffect(() => {
+    if (initial.length) return;
+    fetch("/api/videos", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => setVideos(d.videos ?? []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [initial.length]);
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: videos.length };
@@ -43,8 +55,10 @@ export default function VideoGallery({ videos }: { videos: Video[] }) {
       <h2>Xem <span>phim mới</span></h2>
       <p className="sub">Phim ngắn mới nhất, tự động cập nhật từ các kênh của chúng mình.</p>
 
-      {videos.length === 0 ? (
-        <p className="sub">Chưa tải được danh sách video. {yt && <a style={{ color: "var(--accent)" }} href={yt.url} target="_blank" rel="noopener noreferrer">Xem trực tiếp trên YouTube ↗</a>}</p>
+      {videos.length === 0 && loading ? (
+        <p className="sub">Đang tải video…</p>
+      ) : videos.length === 0 ? (
+        <p className="sub">Chưa tải được danh sách video. {yt && <a style={{ color: "var(--accent)" }} href={yt.url} target="_blank" rel="noopener noreferrer">Xem trực tiếp trên YouTube ↗</a>}{notes && <><br /><small style={{ opacity: 0.7 }}>Chi tiết lỗi: {notes}</small></>}</p>
       ) : (
         <>
           <div className="tabs" role="tablist">

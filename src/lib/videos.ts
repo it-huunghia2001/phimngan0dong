@@ -18,7 +18,7 @@ async function youtubeApi(key: string): Promise<Video[]> {
   let token = "";
   for (let i = 0; i < 10; i++) {
     const r = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlist}&key=${key}${token ? "&pageToken=" + token : ""}`, cache);
-    if (!r.ok) throw new Error("YouTube API " + r.status);
+    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error("YouTube API " + r.status + ": " + (e?.error?.message ?? "")); }
     const j = await r.json();
     for (const it of j.items ?? []) {
       const s = it.snippet;
@@ -28,6 +28,7 @@ async function youtubeApi(key: string): Promise<Video[]> {
     token = j.nextPageToken ?? "";
     if (!token) break;
   }
+  if (!out.length) throw new Error("YouTube API trả về 0 video");
   return out;
 }
 
@@ -35,6 +36,7 @@ async function youtubeRss(): Promise<Video[]> {
   const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${siteConfig.youtubeChannelId}`, cache);
   if (!r.ok) throw new Error("YouTube RSS " + r.status);
   const xml = await r.text();
+  if (!xml.includes("<entry>")) throw new Error("YouTube RSS không có video nào (có thể bị chặn): " + xml.slice(0, 80).replace(/\s+/g, " "));
   return xml.split("<entry>").slice(1).flatMap((e) => {
     const id = e.match(/<yt:videoId>(.*?)<\/yt:videoId>/)?.[1];
     if (!id) return [];
@@ -44,8 +46,13 @@ async function youtubeRss(): Promise<Video[]> {
 
 async function youtube() {
   const key = process.env.YOUTUBE_API_KEY;
-  if (key) { try { return { list: await youtubeApi(key), status: "api" }; } catch { /* rơi xuống RSS */ } }
-  return { list: await youtubeRss(), status: "rss" };
+  let apiErr = "";
+  if (key) { try { return { list: await youtubeApi(key), status: "api" }; } catch (e) { apiErr = msg(e); } }
+  try {
+    return { list: await youtubeRss(), status: apiErr ? `rss (API lỗi: ${apiErr})` : "rss" };
+  } catch (e) {
+    throw new Error(msg(e) + (apiErr ? " | " + apiErr : "") + (key ? "" : " | chưa đặt YOUTUBE_API_KEY"));
+  }
 }
 
 async function facebook() {
