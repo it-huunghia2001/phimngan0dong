@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Phim Ngắn 0 Đồng</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23141110'/%3E%3Ccircle cx='50' cy='50' r='40' fill='%23ffb81c'/%3E%3Ccircle cx='50' cy='50' r='27' fill='%23141110'/%3E%3Cpath d='M43 36v28l23-14z' fill='%23f4eee3'/%3E%3C/svg%3E"
+    />
+
+    <style>
+      :root {
+        --bg: #141110;
+        --surface: #1f1a17;
+        --text: #f4eee3;
+        --muted: #b8ad9c;
+        --accent: #ffb81c;
+        --accent-ink: #141110;
+        --line: #2f2824;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: light) {
+        :root:not([data-theme="dark"]) {
+          --bg: #141110;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          "Be Vietnam Pro",
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .wrap {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px 0;
+      }
+      nav .links {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      nav .links a:hover {
+        color: var(--accent);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        color: var(--accent);
+      }
+      .brand svg {
+        width: 32px;
+        height: 32px;
+      }
+      .hero {
+        text-align: center;
+        padding: 48px 0 56px;
+      }
+      .hero svg {
+        width: min(220px, 55vw);
+        height: auto;
+      }
+      .hero small {
+        display: block;
+        letter-spacing: 0.3em;
+        margin-top: 18px;
+        font-size: 14px;
+      }
+      .hero h1 {
+        margin: 4px 0 12px;
+        font-size: clamp(44px, 10vw, 88px);
+        line-height: 1.05;
+        color: var(--accent);
+        font-weight: 900;
+      }
+      .hero p {
+        max-width: 560px;
+        margin: 0 auto 26px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+      .btns {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-block;
+        padding: 12px 22px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 2px solid var(--accent);
+        transition: transform 0.15s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+      .btn.ghost {
+        color: var(--accent);
+      }
+      section {
+        padding: 48px 0;
+        border-top: 1px solid var(--line);
+      }
+      h2 {
+        font-size: 28px;
+        margin: 0 0 8px;
+      }
+      h2 span {
+        color: var(--accent);
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0 0 24px;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 22px;
+      }
+      .card b {
+        display: block;
+        color: var(--accent);
+        margin-bottom: 6px;
+        font-size: 18px;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .embed {
+        position: relative;
+        aspect-ratio: 16/9;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .embed iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .fb {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        min-height: 200px;
+      }
+      .fb iframe {
+        border: 0;
+        max-width: 100%;
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+        margin-top: 18px;
+        flex-wrap: wrap;
+      }
+      .social {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+      }
+      .social a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+        font-weight: 700;
+        transition: border-color 0.15s;
+      }
+      .social a:hover {
+        border-color: var(--accent);
+      }
+      .social i {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        display: grid;
+        place-items: center;
+        font-style: normal;
+        font-weight: 900;
+      }
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 10px;
+      }
+      footer {
+        padding: 32px 0 40px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+        border-top: 1px solid var(--line);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <nav>
+        <a class="brand" href="#top"
+          ><svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="46" fill="#ffb81c" />
+            <circle cx="50" cy="50" r="31" fill="#141110" />
+            <path d="M43 35v30l25-15z" fill="#f4eee3" /></svg
+          >PHIM NGẮN 0 ĐỒNG</a
+        >
+        <div class="links">
+          <a href="#youtube">YouTube</a><a href="#facebook">Facebook</a
+          ><a href="#lien-ket">Liên kết</a>
+        </div>
+      </nav>
+
+      <header class="hero" id="top">
+        <svg
+          viewBox="0 0 200 200"
+          role="img"
+          aria-label="Logo Phim Ngắn 0 Đồng"
+        >
+          <circle cx="100" cy="100" r="92" fill="#ffb81c" />
+          <g id="ticks" fill="#141110"></g>
+          <circle cx="100" cy="100" r="64" fill="#141110" />
+          <path d="M86 70v60l50-30z" fill="#f4eee3" />
+        </svg>
+        <h2>PHIM NGẮN</h2>
+        <h1>0 ĐỒNG</h1>
+        <p>Nơi những câu chuyện hay được kể mà không cần ngân sách lớn.</p>
+        <div class="btns">
+          <a class="btn primary" href="#youtube">Xem phim mới</a>
+          <a
+            class="btn ghost"
+            id="subBtn"
+            href="#"
+            target="_blank"
+            rel="noopener"
+            >Đăng ký kênh</a
+          >
+        </div>
+      </header>
+
+      <section id="gioi-thieu">
+        <h2>Làm phim bằng <span>những gì đang có</span></h2>
+        <p class="sub">
+          Chiếc điện thoại, những người bạn, những góc phố quen và thật nhiều
+          tâm huyết. Mỗi phim là một lát cắt đời sống, một ý tưởng nhỏ, hay một
+          câu chuyện đang chờ được kể.
+        </p>
+        <div class="grid3">
+          <div class="card">
+            <b>Phim ngắn mới</b>
+            <p>Đủ thể loại, cập nhật thường xuyên.</p>
+          </div>
+          <div class="card">
+            <b>Hậu trường</b>
+            <p>Cách làm phim với chi phí 0 đồng.</p>
+          </div>
+          <div class="card">
+            <b>Chia sẻ</b>
+            <p>Từ những người làm phim độc lập.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="youtube">
+        <h2>Tất cả video trên <span>YouTube</span></h2>
+        <p class="sub">Danh sách tự cập nhật mỗi khi kênh đăng phim mới.</p>
+        <div class="embed" id="ytBox"></div>
+        <div class="row">
+          <a
+            class="btn primary"
+            id="ytBtn"
+            href="#"
+            target="_blank"
+            rel="noopener"
+            >Mở kênh YouTube</a
+          >
+        </div>
+      </section>
+
+      <section id="facebook">
+        <h2>Video &amp; bài viết trên <span>Facebook</span></h2>
+        <p class="sub">Phim và cập nhật mới nhất từ trang Facebook.</p>
+        <div class="fb" id="fbBox"></div>
+        <div class="row">
+          <a
+            class="btn primary"
+            id="fbBtn"
+            href="#"
+            target="_blank"
+            rel="noopener"
+            >Mở trang Facebook</a
+          >
+        </div>
+        <p class="note" id="fbNote"></p>
+      </section>
+
+      <section id="lien-ket">
+        <h2>Kết nối với <span>chúng mình</span></h2>
+        <p class="sub">Theo dõi để không bỏ lỡ phim mới.</p>
+        <div class="social" id="socialBox"></div>
+      </section>
+
+      <footer>
+        © <span id="yr"></span> Phim Ngắn 0 Đồng · Đăng ký kênh và bật chuông để
+        không bỏ lỡ phim mới.
+      </footer>
+    </div>
+
+    <script>
+      /* ====== CHỈNH Ở ĐÂY ====== */
+      const CONFIG = {
+        youtubeChannelId: "UCufAHF62uTgxgQtRdn7YfgQ",
+        youtubeUrl: "https://www.youtube.com/@phimngan0dong",
+        facebookUrl: "https://www.facebook.com/profile.php?id=61596357519455",
+        social: [
+          // thêm/bớt tuỳ ý
+          {
+            name: "YouTube",
+            url: "https://www.youtube.com/@phimngan0dong",
+            icon: "▶",
+          },
+          {
+            name: "Facebook",
+            url: "https://www.facebook.com/profile.php?id=61596357519455",
+            icon: "f",
+          },
+          {
+            name: "TikTok",
+            url: "https://www.tiktok.com/@nhclosets",
+            icon: "♪",
+          },
+          { name: "Instagram", url: "", icon: "◎" },
+        ],
+      };
+      /* ========================= */
+
+      document.getElementById("yr").textContent = new Date().getFullYear();
+
+      // logo ticks
+      (function () {
+        const g = document.getElementById("ticks"),
+          ns = "http://www.w3.org/2000/svg";
+        for (let i = 0; i < 24; i++) {
+          const r = document.createElementNS(ns, "rect");
+          r.setAttribute("x", 97);
+          r.setAttribute("y", 14);
+          r.setAttribute("width", 6);
+          r.setAttribute("height", 9);
+          r.setAttribute("transform", "rotate(" + i * 15 + " 100 100)");
+          g.appendChild(r);
+        }
+      })();
+
+      function setLink(id, url) {
+        const el = document.getElementById(id);
+        if (url) {
+          el.href = url;
+        } else {
+          el.removeAttribute("target");
+          el.href = "#lien-ket";
+        }
+      }
+      setLink("ytBtn", CONFIG.youtubeUrl);
+      setLink(
+        "subBtn",
+        CONFIG.youtubeUrl ? CONFIG.youtubeUrl + "?sub_confirmation=1" : "",
+      );
+      setLink("fbBtn", CONFIG.facebookUrl);
+
+      // YouTube: playlist "uploads" = toàn bộ video của kênh
+      const yt = document.getElementById("ytBox");
+      if (CONFIG.youtubeChannelId.indexOf("UC") === 0) {
+        const list = "UU" + CONFIG.youtubeChannelId.slice(2);
+        yt.innerHTML =
+          '<iframe src="https://www.youtube.com/embed/videoseries?list=' +
+          list +
+          '" title="Video YouTube" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';
+      } else {
+        yt.innerHTML =
+          '<div style="display:grid;place-items:center;height:100%;padding:20px;text-align:center;color:var(--muted)">Điền youtubeChannelId trong CONFIG để hiện toàn bộ video.</div>';
+      }
+
+      // Facebook page plugin (tab video/timeline)
+      const fb = document.getElementById("fbBox");
+      if (CONFIG.facebookUrl) {
+        const w = Math.min(
+          500,
+          Math.max(280, Math.floor(fb.clientWidth || 500)),
+        );
+        fb.innerHTML =
+          '<iframe title="Facebook" src="https://www.facebook.com/plugins/page.php?href=' +
+          encodeURIComponent(CONFIG.facebookUrl) +
+          "&tabs=timeline&width=" +
+          w +
+          '&height=640&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false" width="' +
+          w +
+          '" height="640" loading="lazy" allow="encrypted-media"></iframe>';
+        document.getElementById("fbNote").textContent =
+          "Nếu khung Facebook không hiện, hãy bấm nút để xem trực tiếp trên Facebook.";
+      } else {
+        fb.innerHTML =
+          '<div style="padding:40px 20px;text-align:center;color:var(--muted)">Điền facebookUrl trong CONFIG để hiện video Facebook.</div>';
+      }
+
+      // Social links
+      const box = document.getElementById("socialBox");
+      CONFIG.social
+        .filter(function (s) {
+          return s.url;
+        })
+        .forEach(function (s) {
+          const a = document.createElement("a");
+          a.href = s.url || "#";
+          if (s.url) {
+            a.target = "_blank";
+            a.rel = "noopener";
+          }
+          const i = document.createElement("i");
+          i.textContent = s.icon;
+          a.appendChild(i);
+          a.appendChild(document.createTextNode(s.name));
+          box.appendChild(a);
+        });
+    </script>
+  </body>
+</html>
